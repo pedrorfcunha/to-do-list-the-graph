@@ -1,0 +1,27 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ToDoList
+    network: sepolia
+    source:
+      address: "0xf7DB13A19196B5dB4A50F1e57502Edb435B245d8"
+      abi: ToDoList
+      startBlock: 3845483
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ToDoAdded
+        - ToDoUpdated
+      abis:
+        - name: ToDoList
+          file: ./abis/ToDoList.json
+      eventHandlers:
+        - event: ToDoAdded(indexed uint256,indexed address,string)
+          handler: handleToDoAdded
+        - event: ToDoUpdated(indexed uint256,bool)
+          handler: handleToDoUpdated
+      file: ./src/to-do-list.ts

@@ -1,0 +1,18 @@
+type ToDoAdded @entity(immutable: true) {
+  id: Bytes!
+  ToDoList_id: BigInt! # uint256
+  owner: Bytes! # address
+  description: String! # string
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type ToDoUpdated @entity(immutable: true) {
+  id: Bytes!
+  ToDoList_id: BigInt! # uint256
+  complete: Boolean! # bool
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
