@@ -1,0 +1,26 @@
+{
+  "name": "tdl-smart-contract",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-etherscan": "^3.1.7",
+    "@typechain/ethers-v5": "11.0.0",
+    "@typechain/hardhat": "7.0.0",
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
+    "chai": "^4.3.7",
+    "dotenv": "^16.3.1",
+    "ethereum-waffle": "4.0.10",
+    "ethers": "^5.6.8",
+    "hardhat": "^2.16.1",
+    "hardhat-abi-exporter": "^2.10.1",
+    "hardhat-deploy": "^0.11.34",
+    "prettier": "^2.8.8",
+    "prettier-plugin-solidity": "^1.1.3",
+    "ts-node": "^10.9.1",
+    "typechain": "8.2.0",
+    "typescript": "5.1.6"
+  }
+}
