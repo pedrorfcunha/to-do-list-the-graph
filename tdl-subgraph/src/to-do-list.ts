@@ -1,34 +1,37 @@
+import { Address, BigInt } from '@graphprotocol/graph-ts';
 import {
   ToDoAdded as ToDoAddedEvent,
-  ToDoUpdated as ToDoUpdatedEvent
-} from "../generated/ToDoList/ToDoList"
-import { ToDoAdded, ToDoUpdated } from "../generated/schema"
+  ToDoUpdated as ToDoUpdatedEvent,
+} from '../generated/ToDoList/ToDoList';
+import { ToDo } from '../generated/schema';
 
 export function handleToDoAdded(event: ToDoAddedEvent): void {
-  let entity = new ToDoAdded(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.ToDoList_id = event.params.id
-  entity.owner = event.params.owner
-  entity.description = event.params.description
+  let todo = new ToDo(getIdFromEventParams(event.params.id, event.params.owner));
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  todo.todoId = event.params.id;
+  todo.owner = event.params.owner;
+  todo.description = event.params.description;
+  todo.completeStatus = false;
 
-  entity.save()
+  todo.blockNumber = event.block.number;
+  todo.blockTimestamp = event.block.timestamp;
+  todo.transactionHash = event.transaction.hash;
+
+  todo.save();
 }
 
 export function handleToDoUpdated(event: ToDoUpdatedEvent): void {
-  let entity = new ToDoUpdated(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.ToDoList_id = event.params.id
-  entity.complete = event.params.complete
+  let todo = ToDo.load(getIdFromEventParams(event.params.id, event.params.owner));
 
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
+  if (todo) {
+    todo.completeStatus = event.params.complete;
+    todo.lastBlockNumber = event.block.number;
+    todo.lastBlockTimestamp = event.block.timestamp;
+    todo.lastTransactionHash = event.transaction.hash;
+    todo.save();
+  }
+}
 
-  entity.save()
+function getIdFromEventParams(todoId: BigInt, owner: Address): string {
+  return todoId.toHexString() + owner.toHexString();
 }

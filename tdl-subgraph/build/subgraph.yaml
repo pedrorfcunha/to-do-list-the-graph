@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: ToDoList
@@ -17,10 +17,10 @@ dataSources:
         - ToDo
       abis:
         - name: ToDoList
-          file: ./abis/ToDoList.json
+          file: ToDoList\abis\ToDoList.json
       eventHandlers:
         - event: ToDoAdded(indexed uint256,indexed address,string)
           handler: handleToDoAdded
         - event: ToDoUpdated(indexed uint256,indexed address,bool)
           handler: handleToDoUpdated
-      file: ./src/to-do-list.ts
+      file: ToDoList\ToDoList.wasm

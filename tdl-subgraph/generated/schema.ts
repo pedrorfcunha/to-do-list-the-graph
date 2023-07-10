@@ -11,51 +11,47 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class ToDoAdded extends Entity {
-  constructor(id: Bytes) {
+export class ToDo extends Entity {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save ToDoAdded entity without an ID");
+    assert(id != null, "Cannot save ToDo entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type ToDoAdded must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type ToDo must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("ToDoAdded", id.toBytes().toHexString(), this);
+      store.set("ToDo", id.toString(), this);
     }
   }
 
-  static loadInBlock(id: Bytes): ToDoAdded | null {
-    return changetype<ToDoAdded | null>(
-      store.get_in_block("ToDoAdded", id.toHexString())
-    );
+  static loadInBlock(id: string): ToDo | null {
+    return changetype<ToDo | null>(store.get_in_block("ToDo", id));
   }
 
-  static load(id: Bytes): ToDoAdded | null {
-    return changetype<ToDoAdded | null>(
-      store.get("ToDoAdded", id.toHexString())
-    );
+  static load(id: string): ToDo | null {
+    return changetype<ToDo | null>(store.get("ToDo", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
-      return value.toBytes();
+      return value.toString();
     }
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
-  get ToDoList_id(): BigInt {
-    let value = this.get("ToDoList_id");
+  get todoId(): BigInt {
+    let value = this.get("todoId");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -63,8 +59,8 @@ export class ToDoAdded extends Entity {
     }
   }
 
-  set ToDoList_id(value: BigInt) {
-    this.set("ToDoList_id", Value.fromBigInt(value));
+  set todoId(value: BigInt) {
+    this.set("todoId", Value.fromBigInt(value));
   }
 
   get owner(): Bytes {
@@ -93,104 +89,8 @@ export class ToDoAdded extends Entity {
     this.set("description", Value.fromString(value));
   }
 
-  get blockNumber(): BigInt {
-    let value = this.get("blockNumber");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set blockNumber(value: BigInt) {
-    this.set("blockNumber", Value.fromBigInt(value));
-  }
-
-  get blockTimestamp(): BigInt {
-    let value = this.get("blockTimestamp");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set blockTimestamp(value: BigInt) {
-    this.set("blockTimestamp", Value.fromBigInt(value));
-  }
-
-  get transactionHash(): Bytes {
-    let value = this.get("transactionHash");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set transactionHash(value: Bytes) {
-    this.set("transactionHash", Value.fromBytes(value));
-  }
-}
-
-export class ToDoUpdated extends Entity {
-  constructor(id: Bytes) {
-    super();
-    this.set("id", Value.fromBytes(id));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save ToDoUpdated entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type ToDoUpdated must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
-      );
-      store.set("ToDoUpdated", id.toBytes().toHexString(), this);
-    }
-  }
-
-  static loadInBlock(id: Bytes): ToDoUpdated | null {
-    return changetype<ToDoUpdated | null>(
-      store.get_in_block("ToDoUpdated", id.toHexString())
-    );
-  }
-
-  static load(id: Bytes): ToDoUpdated | null {
-    return changetype<ToDoUpdated | null>(
-      store.get("ToDoUpdated", id.toHexString())
-    );
-  }
-
-  get id(): Bytes {
-    let value = this.get("id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBytes();
-    }
-  }
-
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
-  }
-
-  get ToDoList_id(): BigInt {
-    let value = this.get("ToDoList_id");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set ToDoList_id(value: BigInt) {
-    this.set("ToDoList_id", Value.fromBigInt(value));
-  }
-
-  get complete(): boolean {
-    let value = this.get("complete");
+  get completeStatus(): boolean {
+    let value = this.get("completeStatus");
     if (!value || value.kind == ValueKind.NULL) {
       return false;
     } else {
@@ -198,8 +98,8 @@ export class ToDoUpdated extends Entity {
     }
   }
 
-  set complete(value: boolean) {
-    this.set("complete", Value.fromBoolean(value));
+  set completeStatus(value: boolean) {
+    this.set("completeStatus", Value.fromBoolean(value));
   }
 
   get blockNumber(): BigInt {
@@ -239,5 +139,56 @@ export class ToDoUpdated extends Entity {
 
   set transactionHash(value: Bytes) {
     this.set("transactionHash", Value.fromBytes(value));
+  }
+
+  get lastBlockNumber(): BigInt | null {
+    let value = this.get("lastBlockNumber");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set lastBlockNumber(value: BigInt | null) {
+    if (!value) {
+      this.unset("lastBlockNumber");
+    } else {
+      this.set("lastBlockNumber", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get lastBlockTimestamp(): BigInt | null {
+    let value = this.get("lastBlockTimestamp");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set lastBlockTimestamp(value: BigInt | null) {
+    if (!value) {
+      this.unset("lastBlockTimestamp");
+    } else {
+      this.set("lastBlockTimestamp", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get lastTransactionHash(): Bytes | null {
+    let value = this.get("lastTransactionHash");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set lastTransactionHash(value: Bytes | null) {
+    if (!value) {
+      this.unset("lastTransactionHash");
+    } else {
+      this.set("lastTransactionHash", Value.fromBytes(<Bytes>value));
+    }
   }
 }

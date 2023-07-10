@@ -53,17 +53,21 @@ export class ToDoUpdated__Params {
     return this._event.parameters[0].value.toBigInt();
   }
 
+  get owner(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
   get complete(): boolean {
-    return this._event.parameters[1].value.toBoolean();
+    return this._event.parameters[2].value.toBoolean();
   }
 }
 
 export class ToDoList__todosResult {
-  value0: string;
-  value1: Address;
+  value0: Address;
+  value1: string;
   value2: boolean;
 
-  constructor(value0: string, value1: Address, value2: boolean) {
+  constructor(value0: Address, value1: string, value2: boolean) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
@@ -71,17 +75,17 @@ export class ToDoList__todosResult {
 
   toMap(): TypedMap<string, ethereum.Value> {
     let map = new TypedMap<string, ethereum.Value>();
-    map.set("value0", ethereum.Value.fromString(this.value0));
-    map.set("value1", ethereum.Value.fromAddress(this.value1));
+    map.set("value0", ethereum.Value.fromAddress(this.value0));
+    map.set("value1", ethereum.Value.fromString(this.value1));
     map.set("value2", ethereum.Value.fromBoolean(this.value2));
     return map;
   }
 
-  getDescription(): string {
+  getOwner(): Address {
     return this.value0;
   }
 
-  getOwner(): Address {
+  getDescription(): string {
     return this.value1;
   }
 
@@ -111,13 +115,13 @@ export class ToDoList extends ethereum.SmartContract {
   }
 
   todos(param0: BigInt): ToDoList__todosResult {
-    let result = super.call("todos", "todos(uint256):(string,address,bool)", [
+    let result = super.call("todos", "todos(uint256):(address,string,bool)", [
       ethereum.Value.fromUnsignedBigInt(param0)
     ]);
 
     return new ToDoList__todosResult(
-      result[0].toString(),
-      result[1].toAddress(),
+      result[0].toAddress(),
+      result[1].toString(),
       result[2].toBoolean()
     );
   }
@@ -125,7 +129,7 @@ export class ToDoList extends ethereum.SmartContract {
   try_todos(param0: BigInt): ethereum.CallResult<ToDoList__todosResult> {
     let result = super.tryCall(
       "todos",
-      "todos(uint256):(string,address,bool)",
+      "todos(uint256):(address,string,bool)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -134,8 +138,8 @@ export class ToDoList extends ethereum.SmartContract {
     let value = result.value;
     return ethereum.CallResult.fromValue(
       new ToDoList__todosResult(
-        value[0].toString(),
-        value[1].toAddress(),
+        value[0].toAddress(),
+        value[1].toString(),
         value[2].toBoolean()
       )
     );
