@@ -6,6 +6,8 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from 'wagmi';
 
 import NotConnected from '@/components/NotConnected';
+import NewTodo from '@/components/NewTodo';
+import TodoList from '@/components/TodoList';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,7 +27,8 @@ export default function Home() {
           <ConnectButton />
           {isConnected ? (
             <div>
-              <p>connected</p>
+              <NewTodo />
+              <TodoList />
             </div>
           ) : (
             <NotConnected />
