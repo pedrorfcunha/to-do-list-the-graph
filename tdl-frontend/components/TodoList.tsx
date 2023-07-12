@@ -1,37 +1,39 @@
 import { useQuery } from '@apollo/client';
 import { useState, useEffect } from 'react';
+import { useAccount } from 'wagmi';
 
+import TodoItem from './TodoItem';
 import { GET_TODO_LIST } from '@/data/todo-data';
+import { Todo } from '@/utils/types';
+import styles from './TodoList.module.css';
 
 const TodoList = () => {
-  type Todo = {
-    blockTimestamp: string;
-    completeStatus: boolean;
-    description: string;
-    id: string;
-    lastBlockTimestamp: string | null;
-    owner: string;
-    todoId: string;
-  };
-
   const [todoList, setTodoList] = useState<Todo[]>([]);
 
   const { loading, error, data } = useQuery(GET_TODO_LIST);
 
+  const addressConnected = useAccount();
+  const { address } = addressConnected;
+  console.log(address);
+
   useEffect(() => {
-    if (data) {
-      setTodoList(data.toDos);
+    if (data && address) {
+      console.log(data.toDos);
+      const filteredTodos = data.toDos.filter((todo: Todo) => todo.owner === address.toLowerCase());
+      setTodoList(filteredTodos);
     }
-  }, [data, todoList]);
+  }, [data, address]);
 
   return (
-    <div>
-      {todoList?.map(todo => (
-        <div key={todo.id}>
-          <p>{todo.description}</p>
-        </div>
-      ))}
-      <p>todo</p>
+    <div className={styles.todoList}>
+      <h2 className={styles.h2}>This is your ToDo List:</h2>
+      <div className={styles.container}>
+        {todoList?.length > 0 ? (
+          todoList.map(todo => <TodoItem todo={todo} key={todo.id} />)
+        ) : (
+          <p>You should insert your first todo!</p>
+        )}
+      </div>
     </div>
   );
 };

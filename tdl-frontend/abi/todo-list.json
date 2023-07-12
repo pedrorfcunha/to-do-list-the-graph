@@ -1,0 +1,57 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" },
+      { "indexed": true, "internalType": "address", "name": "owner", "type": "address" },
+      { "indexed": false, "internalType": "string", "name": "description", "type": "string" }
+    ],
+    "name": "ToDoAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "id", "type": "uint256" },
+      { "indexed": true, "internalType": "address", "name": "owner", "type": "address" },
+      { "indexed": false, "internalType": "bool", "name": "complete", "type": "bool" }
+    ],
+    "name": "ToDoUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [{ "internalType": "string", "name": "_description", "type": "string" }],
+    "name": "setNewToDo",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "toDoCount",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "todos",
+    "outputs": [
+      { "internalType": "address", "name": "owner", "type": "address" },
+      { "internalType": "string", "name": "description", "type": "string" },
+      { "internalType": "bool", "name": "complete", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_id", "type": "uint256" },
+      { "internalType": "bool", "name": "_complete", "type": "bool" }
+    ],
+    "name": "updateToDoStatus",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
