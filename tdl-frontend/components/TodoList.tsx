@@ -10,15 +10,13 @@ import styles from './TodoList.module.css';
 const TodoList = () => {
   const [todoList, setTodoList] = useState<Todo[]>([]);
 
-  const { loading, error, data } = useQuery(GET_TODO_LIST);
+  const { loading, error, data, refetch } = useQuery(GET_TODO_LIST);
 
   const addressConnected = useAccount();
   const { address } = addressConnected;
-  console.log(address);
 
   useEffect(() => {
     if (data && address) {
-      console.log(data.toDos);
       const filteredTodos = data.toDos.filter((todo: Todo) => todo.owner === address.toLowerCase());
       setTodoList(filteredTodos);
     }
